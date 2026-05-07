@@ -8,6 +8,7 @@ function parseFormBody(body) {
   return {
     name: (params.get("name") || "").trim(),
     email: (params.get("email") || "").trim(),
+    subject: (params.get("subject") || "").trim(),
     message: (params.get("message") || "").trim(),
     company: (params.get("company") || "").trim() // honeypot field
   };
@@ -39,7 +40,7 @@ exports.handler = async function (event) {
     };
   }
 
-  const { name, email, message, company } = parseFormBody(event.body);
+  const { name, email, subject, message, company } = parseFormBody(event.body);
 
   // Honeypot: if filled, pretend success but do not send.
   if (company) {
@@ -77,7 +78,7 @@ exports.handler = async function (event) {
       from: `Spartina Website <${CONTACT_FROM}>`,
       to: CONTACT_TO,
       replyTo: email,
-      subject: "New Spartina website inquiry",
+      subject: subject,
       text: message
     });
 

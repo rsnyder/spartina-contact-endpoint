@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-const THANKS_URL = "https://www.spartina.io/thanks";
+const THANKS_URL = "https://www.spartina.io/thanks/";
 const ERROR_URL = "https://www.spartina.io/contact-error";
 
 function parseFormBody(body) {

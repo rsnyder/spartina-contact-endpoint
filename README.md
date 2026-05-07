@@ -1,2 +1,2 @@
-# form-submit
-A form submission relay service for contact emails.
+# spartina-contact-endpoint
+A form submission relay service for Spartina contact emails.

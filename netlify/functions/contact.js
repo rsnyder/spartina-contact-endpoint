@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 
-const THANKS_URL = "https://www.spartina.io/thanks/";
-const ERROR_URL = "https://www.spartina.io/contact-error/";
+const THANKS_URL = "https://www.spartina.io/thanks";
+const ERROR_URL = "https://www.spartina.io/contact-error";
 
 function parseFormBody(body) {
   const params = new URLSearchParams(body || "");
@@ -72,22 +72,13 @@ exports.handler = async function (event) {
     }
   });
 
-  const plainText = `New Spartina website inquiry
-
-Name: ${name}
-Email: ${email}
-
-Message:
-${message}
-`;
-
   try {
     await transporter.sendMail({
       from: `Spartina Website <${CONTACT_FROM}>`,
       to: CONTACT_TO,
       replyTo: email,
       subject: "New Spartina website inquiry",
-      text: plainText
+      text: message
     });
 
     return redirect(THANKS_URL);

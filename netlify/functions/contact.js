@@ -10,7 +10,10 @@ function parseFormBody(body) {
     email: (params.get("email") || "").trim(),
     subject: (params.get("subject") || "").trim(),
     message: (params.get("message") || "").trim(),
-    company: (params.get("company") || "").trim() // honeypot field
+    // Honeypot field. Deliberately NOT named "company"/"organization" — browsers
+    // autofill those from a saved address profile, which silently discarded
+    // legitimate submissions.
+    honeypot: (params.get("spartina_hp") || "").trim()
   };
 }
 
@@ -40,10 +43,11 @@ exports.handler = async function (event) {
     };
   }
 
-  const { name, email, subject, message, company } = parseFormBody(event.body);
+  const { name, email, subject, message, honeypot } = parseFormBody(event.body);
 
   // Honeypot: if filled, pretend success but do not send.
-  if (company) {
+  if (honeypot) {
+    console.warn("Honeypot triggered; discarding submission.");
     return redirect(THANKS_URL);
   }
 
